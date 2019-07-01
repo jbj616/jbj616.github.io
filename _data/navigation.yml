@@ -1,0 +1,21 @@
+# main links
+main:
+  - title: "category"
+    url: /categories/
+  - title: "tags"
+    url: /tags/
+  #- title: "Quick-Start Guide"
+  #   url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
+  # - title: "About"
+  #   url: https://mmistakes.github.io/minimal-mistakes/about/
+  # - title: "Sample Posts"
+  #   url: /year-archive/
+  # - title: "Sample Collections"
+  #   url: /collection-archive/
+sidebar-sample:
+  - title: "Categories"
+    children:
+      - title: "java_study"
+        url: /categories/#java-study
+      - title: "algorithm_study"
+        url: /categories/#algorithm_study
