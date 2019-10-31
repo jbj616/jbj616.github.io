@@ -1,0 +1,253 @@
+I"�f<blockquote>
+  <p>문제 출처</p>
+</blockquote>
+
+<p>https://www.acmicpc.net/problem/14499</p>
+
+<blockquote>
+  <p>문제</p>
+</blockquote>
+
+<h1 id="주사위-굴리기">주사위 굴리기</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 제한</th>
+      <th>메모리 제한</th>
+      <th>제출</th>
+      <th>정답</th>
+      <th>맞은 사람</th>
+      <th>정답 비율</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2 초</td>
+      <td>512 MB</td>
+      <td>10544</td>
+      <td>4038</td>
+      <td>2962</td>
+      <td>39.689%</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="문제">문제</h2>
+
+<p>크기가 N×M인 지도가 존재한다. 지도의 오른쪽은 동쪽, 위쪽은 북쪽이다. 이 지도의 위에 주사위가 하나 놓여져 있으며, 주사위의 전개도는 아래와 같다. 지도의 좌표는 (r, c)로 나타내며, r는 북쪽으로부터 떨어진 칸의 개수, c는 서쪽으로부터 떨어진 칸의 개수이다.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  2
+4 1 3
+  5
+  6
+</code></pre></div></div>
+
+<p>주사위는 지도 위에 윗 면이 1이고, 동쪽을 바라보는 방향이 3인 상태로 놓여져 있으며, 놓여져 있는 곳의 좌표는 (x, y) 이다. 가장 처음에 주사위에는 모든 면에 0이 적혀져 있다.</p>
+
+<p>지도의 각 칸에는 정수가 하나씩 쓰여져 있다. 주사위를 굴렸을 때, 이동한 칸에 쓰여 있는 수가 0이면, 주사위의 바닥면에 쓰여 있는 수가 칸에 복사된다. 0이 아닌 경우에는 칸에 쓰여 있는 수가 주사위의 바닥면으로 복사되며, 칸에 쓰여 있는 수는 0이 된다.</p>
+
+<p>주사위를 놓은 곳의 좌표와 이동시키는 명령이 주어졌을 때, 주사위가 이동했을 때 마다 상단에 쓰여 있는 값을 구하는 프로그램을 작성하시오.</p>
+
+<p>주사위는 지도의 바깥으로 이동시킬 수 없다. 만약 바깥으로 이동시키려고 하는 경우에는 해당 명령을 무시해야 하며, 출력도 하면 안된다.</p>
+
+<h2 id="입력">입력</h2>
+
+<p>첫째 줄에 지도의 세로 크기 N, 가로 크기 M (1 ≤ N, M ≤ 20), 주사위를 놓은 곳의 좌표 x y(0 ≤ x ≤ N-1, 0 ≤ y ≤ M-1), 그리고 명령의 개수 K (1 ≤ K ≤ 1,000)가 주어진다.</p>
+
+<p>둘째 줄부터 N개의 줄에 지도에 쓰여 있는 수가 북쪽부터 남쪽으로, 각 줄은 서쪽부터 동쪽 순서대로 주어진다. 주사위를 놓은 칸에 쓰여 있는 수는 항상 0이다. 지도의 각 칸에 쓰여 있는 수는 10을 넘지 않는 자연수이다.</p>
+
+<p>마지막 줄에는 이동하는 명령이 순서대로 주어진다. 동쪽은 1, 서쪽은 2, 북쪽은 3, 남쪽은 4로 주어진다.</p>
+
+<h2 id="출력">출력</h2>
+
+<p>이동할 때마다 주사위의 윗 면에 쓰여 있는 수를 출력한다. 만약 바깥으로 이동시키려고 하는 경우에는 해당 명령을 무시해야 하며, 출력도 하면 안된다.</p>
+
+<blockquote>
+  <p>문제 풀이</p>
+</blockquote>
+
+<ol>
+  <li>바닥을 기준으로</li>
+</ol>
+
+<ul>
+  <li>바닥 - 북 - 위 - 남 (세로)</li>
+  <li>바닥 - 동 - 위 - 서 (가로)</li>
+</ul>
+
+<p>2가지 경우를 나누에 생각함.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">horizonDice</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">4</span><span class="o">];</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">verticalDice</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">4</span><span class="o">];</span>
+</code></pre></div></div>
+
+<ol>
+  <li>기본적인 조건을 생각한다.</li>
+</ol>
+
+<ul>
+  <li>
+    <p>이동한 칸에 쓰여 있는 수가 0이면, 주사위의 바닥면에 쓰여 있는 수가 칸에 복사된다.</p>
+  </li>
+  <li>
+    <p>0이 아닌경우에는 칸에 쓰여 있는 수가 주사위의 바닥면으로 복사되며, 칸에 쓰여 있는 수는 0이 된다.</p>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span><span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="c1">//이동한 칸에 쓰여 있는 수가 0이면, 주사위의 바닥면에 쓰여 있는 수가 칸에 복사된다.</span>
+            <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+        <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+            <span class="c1">//0이 아닌 경우에는 칸에 쓰여 있는 수가 주사위의 바닥면으로 복사되며, 칸에 쓰여 있는 수는 0이 된다.</span>
+            <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">];</span>
+            <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>주사위를 굴린다.</li>
+</ol>
+
+<ul>
+  <li>동</li>
+  <li>서</li>
+  <li>남</li>
+  <li>북</li>
+</ul>
+
+<p>북쪽으로 굴린다고 가정하면 세로축이 한칸씩 밀린다.</p>
+
+<ul>
+  <li>바닥 -&gt; 남</li>
+  <li>북 -&gt; 바닥</li>
+  <li>위 -&gt; 북</li>
+  <li>남 -&gt; 위</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">locationY</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span> <span class="c1">//지도 범위 내일 때</span>
+                <span class="n">locationY</span><span class="o">--;</span>
+                <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                    <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>전체 소스</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Baekjoon_14499</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">,</span> <span class="no">M</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">map</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="n">locationX</span><span class="o">,</span> <span class="n">locationY</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">horizonDice</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">4</span><span class="o">];</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">verticalDice</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">4</span><span class="o">];</span>
+    <span class="c1">//주사위 vertical 0: 바닥 1:북 2:위 3:남 horizontal 0: 바닥 1: 동 2: 위 3: 서. 초기 바닥 6, 위 1, 동 3 서 4 남 5 북 2</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+        <span class="no">N</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="no">M</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+
+        <span class="n">locationY</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span> <span class="c1">//현재 위치</span>
+        <span class="n">locationX</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span>
+
+        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span> <span class="c1">//횟수</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="n">map</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="c1">//주사위를 놓은 칸에 쓰여 있는 수는 항상 0</span>
+
+        <span class="nc">Print</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">k</span> <span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+            <span class="n">moveDice</span><span class="o">(</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">());</span>
+
+    <span class="o">}</span>
+    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Print</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">==</span><span class="mi">0</span><span class="o">){</span>
+            <span class="c1">//이동한 칸에 쓰여 있는 수가 0이면, 주사위의 바닥면에 쓰여 있는 수가 칸에 복사된다.</span>
+            <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+        <span class="o">}</span><span class="k">else</span><span class="o">{</span>
+            <span class="c1">//0이 아닌 경우에는 칸에 쓰여 있는 수가 주사위의 바닥면으로 복사되며, 칸에 쓰여 있는 수는 0이 된다.</span>
+            <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">];</span>
+            <span class="n">map</span><span class="o">[</span><span class="n">locationY</span><span class="o">][</span><span class="n">locationX</span><span class="o">]</span> <span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">moveDice</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">){</span> <span class="c1">//주사위 이동</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span> <span class="c1">//동</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">locationX</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="no">M</span><span class="o">){</span>
+                <span class="n">locationX</span><span class="o">++;</span>
+                <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span> <span class="c1">//큐 활용</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                    <span class="n">horiznDice</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+                <span class="nc">Print</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">a</span> <span class="o">==</span> <span class="mi">2</span><span class="o">){</span> <span class="c1">//서</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">locationX</span><span class="o">-</span><span class="mi">1</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">){</span>
+                <span class="n">locationX</span><span class="o">--;</span>
+                <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">3</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span>
+                    <span class="n">horizonDice</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]=</span> <span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+                <span class="nc">Print</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span> <span class="n">a</span><span class="o">==</span> <span class="mi">3</span><span class="o">){</span> <span class="c1">//북</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">locationY</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;=</span><span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">locationY</span><span class="o">--;</span>
+                <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                    <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+                <span class="nc">Print</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+            <span class="o">}</span>
+
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span><span class="o">(</span> <span class="n">a</span><span class="o">==</span> <span class="mi">4</span><span class="o">){</span> <span class="c1">//남</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">locationY</span><span class="o">+</span><span class="mi">1</span><span class="o">&lt;</span><span class="no">N</span><span class="o">){</span>
+                <span class="n">locationY</span><span class="o">++;</span>
+                <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">3</span><span class="o">];</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">3</span><span class="o">;</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span>
+                    <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+                <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">;</span>
+
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+                <span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]=</span> <span class="n">verticalDice</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+                <span class="nc">Print</span><span class="o">();</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">horizonDice</span><span class="o">[</span><span class="mi">2</span><span class="o">]);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+:ET

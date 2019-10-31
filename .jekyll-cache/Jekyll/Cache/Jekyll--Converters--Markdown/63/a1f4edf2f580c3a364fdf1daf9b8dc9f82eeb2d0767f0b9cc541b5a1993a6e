@@ -1,0 +1,90 @@
+I"�!<blockquote>
+  <p>문제출처</p>
+</blockquote>
+
+<p>https://www.acmicpc.net/problem/11053</p>
+
+<blockquote>
+  <p>풀이</p>
+</blockquote>
+
+<p>dp =&gt; 최대 수열 개수</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>num</th>
+      <th style="text-align: center">10</th>
+      <th style="text-align: center">20</th>
+      <th style="text-align: center">10</th>
+      <th style="text-align: center">30</th>
+      <th style="text-align: center">20</th>
+      <th style="text-align: center">50</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Dp</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">1</td>
+      <td style="text-align: center">3</td>
+      <td style="text-align: center">2</td>
+      <td style="text-align: center">4</td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>dp[n]은 n-1까지 수들 중 num[n]보다 작은 값에서 최대 dp+1</li>
+  <li>num[n]보다 작은 값이 없을 때 dp[n] = 1</li>
+  <li>출력은 dp중 가장 큰 값</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;</span><span class="n">num</span><span class="o">[</span><span class="n">j</span><span class="o">])</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">]+</span><span class="mi">1</span><span class="o">);</span>
+                <span class="k">else</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>전체소스</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Baekjoon_11053</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span><span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">num</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+        
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span><span class="n">i</span><span class="o">++)</span>
+            <span class="n">num</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="n">dp</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">2</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">i</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">num</span><span class="o">[</span><span class="n">i</span><span class="o">]&gt;</span><span class="n">num</span><span class="o">[</span><span class="n">j</span><span class="o">])</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="n">dp</span><span class="o">[</span><span class="n">j</span><span class="o">]+</span><span class="mi">1</span><span class="o">);</span>
+                <span class="k">else</span>
+                    <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">],</span> <span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kt">int</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">max</span> <span class="o">=</span> <span class="nc">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">max</span><span class="o">,</span> <span class="n">dp</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">max</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

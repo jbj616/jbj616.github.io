@@ -1,0 +1,124 @@
+I"m9<blockquote>
+  <p>문제 출처</p>
+</blockquote>
+
+<p>https://www.acmicpc.net/problem/11403</p>
+
+<blockquote>
+  <p>문제</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p>가중치 없는 방향 그래프 G가 주어졌을 때, 모든 정점 (i, j)에 대해서, i에서 j로 가는 경로가 있는지 없는지 구하는 프로그램을 작성하시오.</p>
+
+<h2 id="입력">입력</h2>
+
+<p>첫째 줄에 정점의 개수 N (1 ≤ N ≤ 100)이 주어진다. 둘째 줄부터 N개 줄에는 그래프의 인접 행렬이 주어진다. i번째 줄의 j번째 숫자가 1인 경우에는 i에서 j로 가는 간선이 존재한다는 뜻이고, 0인 경우는 없다는 뜻이다. i번째 줄의 i번째 숫자는 항상 0이다.</p>
+
+<h2 id="출력">출력</h2>
+
+<p>총 N개의 줄에 걸쳐서 문제의 정답을 인접행렬 형식으로 출력한다. 정점 i에서 j로 가는 경로가 있으면 i번째 줄의 j번째 숫자를 1로, 없으면 0으로 출력해야 한다</p>
+
+<blockquote>
+  <p>문제 풀이</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>우선 그래프를 나타내는 배열 생성</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="n">graph</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>bfs 메소드 생성</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">graph_x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">graph_y</span><span class="o">){</span>
+        <span class="n">isVisited</span><span class="o">[</span><span class="n">graph_y</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="nc">Queue</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">graph_y</span><span class="o">);</span>
+  
+        <span class="k">while</span> <span class="o">(!</span><span class="n">q</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()){</span>
+            <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+  
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">isVisited</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span> <span class="kc">false</span> <span class="o">&amp;&amp;</span> <span class="n">graph</span><span class="o">[</span><span class="n">tmp</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span>
+                    <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                    <span class="n">graph</span><span class="o">[</span><span class="n">graph_x</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span><span class="mi">1</span><span class="o">;</span><span class="c1">//경로가 있을 경우 해당 그래플 배열을 1로 바꾼다.</span>
+                    <span class="n">isVisited</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>    </div>
+
+    <ul>
+      <li>1일때 해당 정점에 경로가 있을경우 queue에 넣고 큐에서 하나씩 꺼내어 해당 정점에 경로가 있을경우 다시 queue에 넣는다. (정점 방문 체크)</li>
+      <li>경로가 있을 경우 해당 그래플 배열을 1로 바꾼다.</li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>전체 소스</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.LinkedList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Queue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Baekjoon_11403</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">graph</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">boolean</span><span class="o">[]</span> <span class="n">isVisited</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">;</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+         <span class="no">N</span><span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="n">graph</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">N</span><span class="o">];</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span> <span class="c1">//입력</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="n">graph</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span> <span class="c1">//bfs</span>
+            <span class="n">isVisited</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">boolean</span><span class="o">[</span><span class="no">N</span><span class="o">];</span> <span class="c1">//방문 체크 초기화</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">graph</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="n">isVisited</span><span class="o">[</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="kc">false</span><span class="o">){</span>
+                    <span class="n">bfs</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">j</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span> <span class="c1">//출력</span>
+            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">j</span><span class="o">++){</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">graph</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]+</span><span class="s">" "</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">();</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">bfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">graph_x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">graph_y</span><span class="o">){</span>
+        <span class="n">isVisited</span><span class="o">[</span><span class="n">graph_y</span><span class="o">]</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
+        <span class="nc">Queue</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">graph_y</span><span class="o">);</span>
+
+        <span class="k">while</span> <span class="o">(!</span><span class="n">q</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">()){</span>
+            <span class="kt">int</span> <span class="n">tmp</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">isVisited</span><span class="o">[</span><span class="n">i</span><span class="o">]==</span> <span class="kc">false</span> <span class="o">&amp;&amp;</span> <span class="n">graph</span><span class="o">[</span><span class="n">tmp</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span>
+                    <span class="n">q</span><span class="o">.</span><span class="na">offer</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+                    <span class="n">graph</span><span class="o">[</span><span class="n">graph_x</span><span class="o">][</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="c1">//경로 존재시 1로 변경</span>
+                    <span class="n">isVisited</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+                <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

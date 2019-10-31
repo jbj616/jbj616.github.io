@@ -1,0 +1,209 @@
+I"�r<h2 id="백준-1986--체스">백준 1986 : 체스</h2>
+
+<blockquote>
+  <p>문제출처</p>
+</blockquote>
+
+<p>https://www.acmicpc.net/problem/1986</p>
+
+<blockquote>
+  <p>문제</p>
+</blockquote>
+
+<h2 id="문제">문제</h2>
+
+<p>n*m 크기의 체스 판과, 상대팀의 Queen, Knight, Pawn의 위치가 주어져 있을 때, 안전한 칸이 몇 칸인지 세는 프로그램을 작성하시오. (안전한 칸이란 말은 그 곳에 자신의 말이 있어도 잡힐 가능성이 없다는 것이다.)</p>
+
+<p>참고로 Queen은 가로, 세로, 대각선으로 갈 수 있는 만큼 최대한 많이 이동을 할 수 있는데 만약 그 중간에 장애물이 있다면 이동을 할 수 없다. 그리고 Knight는 2*3 직사각형을 그렸을 때, 반대쪽 꼭짓점으로 이동을 할 수 있다. 아래 그림과 같은 8칸이 이에 해당한다.</p>
+
+<p><img src="https://www.acmicpc.net/JudgeOnline/upload/201007/asdf.png" alt="img" /></p>
+
+<p>이때 Knight는 중간에 장애물이 있더라도 이동을 할 수 있다. 그리고 Pawn은 상대팀의 말은 잡을 수 없다고 하자(즉, 장애물의 역할만 한다는 것이다).</p>
+
+<p>예를 들어 다음과 같이 말이 배치가 되어 있다면 진하게 표시된 부분이 안전한 칸이 될 것이다. (K : Knight, Q : Queen, P : Pawn)</p>
+
+<p><img src="https://www.acmicpc.net/JudgeOnline/upload/201007/qazwqszx.png" alt="img" /></p>
+
+<h2 id="입력">입력</h2>
+
+<p>첫째 줄에는 체스 판의 크기 n과 m이 주어진다. (1&lt;=n, m&lt;=1000) 그리고 둘째 줄에는 Queen의 개수와 그 개수만큼의 Queen의 위치가 입력된다. 그리고 마찬가지로 셋째 줄에는
+Knight의 개수와 위치, 넷째 줄에는 Pawn의 개수와 위치가 입력된다. (즉 둘째 줄~ 넷째 줄은  k,r1,c1,r2,c2,…,rk,ck 이 빈칸을 사이에 두고 주어진다는 것이다. 여기서 ri는 i번째 말의 행 위치, ci는 i번째 말의 열 위치를 의미한다.) 한 칸에는 하나의 말만 놓인다고 가정한다. Knight, Queen, Pawn의 개수는 각각 100을 넘지 않는다.</p>
+
+<h2 id="출력">출력</h2>
+
+<p>첫째 줄에 n*m 체스판에 안전한 칸이 몇 칸인지 출력하시오.</p>
+
+<h2 id="예제-입력-1-복사">예제 입력 1 복사</h2>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>4 4
+2 1 4 2 4
+1 1 2
+1 2 3
+</code></pre></div></div>
+
+<blockquote>
+  <p>문제 풀이</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>체스판에서 Queen, Knight, Pawn의 위치를 지정</p>
+  </li>
+  <li>
+    <p>Queen과 Knight 이동</p>
+
+    <ul>
+      <li>Queen
+        <ul>
+          <li>
+            <p>자기 위치를 기준으로 상하좌우 대각선으로 직진 (장애물이 있을시 이동 중단)1</p>
+          </li>
+          <li>
+            <p>Queen의 위치를 0,0 이라 가정하여 x, y좌표로 나누어 배열로 선언</p>
+          </li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Queen_X</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+<span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Queen_Y</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">}</span>
+</code></pre></div>        </div>
+
+        <ul>
+          <li>Queen가 이동할수 있으면 -1</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Queen</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">queenX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Queen_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">queenY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">Queen_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+     
+            <span class="k">while</span> <span class="o">(</span><span class="n">queenX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">queenX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">queenY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">queenY</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">chessBoard</span><span class="o">[</span><span class="n">queenY</span><span class="o">][</span><span class="n">queenX</span><span class="o">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">chessBoard</span><span class="o">[</span><span class="n">queenY</span><span class="o">][</span><span class="n">queenX</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span><span class="c1">//Queen 이동 경로 체크</span>
+                <span class="n">queenX</span> <span class="o">+=</span> <span class="n">Queen_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+                <span class="n">queenY</span> <span class="o">+=</span> <span class="n">Queen_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>Knight</p>
+
+        <ul>
+          <li>
+            <p>자기 위치를 기준으로 2*3직사각형을 그려 반대쪽 꼭짓점</p>
+
+            <p><img src="https://www.acmicpc.net/JudgeOnline/upload/201007/asdf.png" alt="img" /></p>
+          </li>
+          <li>
+            <p>Knight의 위치를 0,0 이라 가정하여 x, y좌표로 나누어 배열로 선언</p>
+
+            <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Knight_X</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">};</span>
+<span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Knight_Y</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+</code></pre></div>            </div>
+          </li>
+          <li>
+            <p>Knight가 이동할수 있으면 -1</p>
+          </li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Knight</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">knightX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Knight_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">knightY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">Knight_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+     
+            <span class="k">if</span> <span class="o">(</span><span class="n">knightX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">knightX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">knightY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">knightY</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">knightY</span><span class="o">][</span><span class="n">knightX</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span><span class="c1">//Knight 이동 경로 체크</span>
+                    <span class="n">chessBoard</span><span class="o">[</span><span class="n">knightY</span><span class="o">][</span><span class="n">knightX</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>안전한 칸 개수 세기</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span><span class="c1">//체스판이 0이면 Knight나 Queen의 이동 경로에 없다.</span>
+                    <span class="n">count</span><span class="o">++;</span>
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<blockquote>
+  <p>전체 소스</p>
+</blockquote>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Baekjoon_1986</span> <span class="o">{</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Knight_X</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Knight_Y</span> <span class="o">=</span> <span class="o">{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Queen_X</span> <span class="o">=</span> <span class="o">{-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">Queen_Y</span> <span class="o">=</span> <span class="o">{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">};</span>
+    <span class="kd">static</span> <span class="kt">int</span> <span class="no">N</span><span class="o">,</span> <span class="no">M</span><span class="o">;</span>
+    <span class="kd">static</span> <span class="kt">int</span><span class="o">[][]</span> <span class="n">chessBoard</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+        <span class="no">N</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="no">M</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">chessBoard</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="no">N</span><span class="o">][</span><span class="no">M</span><span class="o">];</span> <span class="c1">// 체스판 1: queen 2: knight 3: pawn 위치</span>
+
+        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">chessBoard</span><span class="o">[</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">chessBoard</span><span class="o">[</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+
+        <span class="n">k</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="n">chessBoard</span><span class="o">[</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">][</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()</span> <span class="o">-</span> <span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span>
+                    <span class="nc">Queen</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+                <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">2</span><span class="o">)</span>
+                    <span class="nc">Knight</span><span class="o">(</span><span class="n">j</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="no">N</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="no">M</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">j</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">//체스판이 0이면 Knight나 Queen의 이동 경로에 없다.</span>
+                    <span class="n">count</span><span class="o">++;</span>
+
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">count</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Knight</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">knightX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Knight_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">knightY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">Knight_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">knightX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">knightX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">knightY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">knightY</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">chessBoard</span><span class="o">[</span><span class="n">knightY</span><span class="o">][</span><span class="n">knightX</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="c1">//Knight 이동 경로 체크</span>
+                    <span class="n">chessBoard</span><span class="o">[</span><span class="n">knightY</span><span class="o">][</span><span class="n">knightX</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">Queen</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">8</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">queenX</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">Queen_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="kt">int</span> <span class="n">queenY</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">Queen_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+
+            <span class="k">while</span> <span class="o">(</span><span class="n">queenX</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">queenX</span> <span class="o">&lt;</span> <span class="no">M</span> <span class="o">&amp;&amp;</span> <span class="n">queenY</span> <span class="o">&lt;</span> <span class="no">N</span> <span class="o">&amp;&amp;</span> <span class="n">queenY</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">chessBoard</span><span class="o">[</span><span class="n">queenY</span><span class="o">][</span><span class="n">queenX</span><span class="o">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">chessBoard</span><span class="o">[</span><span class="n">queenY</span><span class="o">][</span><span class="n">queenX</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span> <span class="c1">//Queen 이동 경로 체크</span>
+                <span class="n">queenX</span> <span class="o">+=</span> <span class="n">Queen_X</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+                <span class="n">queenY</span> <span class="o">+=</span> <span class="n">Queen_Y</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET

@@ -1,0 +1,84 @@
+I"�<blockquote>
+  <p>문제 출처</p>
+</blockquote>
+
+<p>수 정렬하기 3 : https://www.acmicpc.net/problem/10989</p>
+
+<blockquote>
+  <p>문제 풀이 1</p>
+</blockquote>
+
+<ul>
+  <li>Array 배열 라이브러이 사용 =&gt; 시간 초과</li>
+</ul>
+
+<blockquote>
+  <p>풀이 2</p>
+</blockquote>
+
+<ul>
+  <li>10000 크기의 배열 생성</li>
+  <li>입력값. = 배열 인덱스  =&gt; 배열 카운트 up</li>
+  <li>카운트된 배열 출력</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Main</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">();</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10001</span><span class="o">];</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+        <span class="n">array</span><span class="o">[</span><span class="n">sc</span><span class="o">.</span><span class="na">nextInt</span><span class="o">()]++;</span>
+
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>풀이 3</p>
+</blockquote>
+
+<ul>
+  <li>BufferedReader , BufferedWriter 사용</li>
+</ul>
+
+<p>전체 소스</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.io.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Baekjoon_10989</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+        <span class="nc">Scanner</span> <span class="n">sc</span> <span class="o">=</span><span class="k">new</span> <span class="nc">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">);</span>
+
+        <span class="nc">BufferedReader</span> <span class="n">br</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">));</span>
+        <span class="nc">BufferedWriter</span> <span class="n">bw</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedWriter</span><span class="o">(</span><span class="k">new</span> <span class="nc">OutputStreamWriter</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">));</span>
+        <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">());</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">array</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">10001</span><span class="o">];</span>
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+        <span class="n">array</span><span class="o">[</span><span class="nc">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">br</span><span class="o">.</span><span class="na">readLine</span><span class="o">())]++;</span>
+
+
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;=</span><span class="mi">10000</span><span class="o">;</span> <span class="n">i</span><span class="o">++){</span>
+            <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">j</span><span class="o">&lt;</span><span class="n">array</span><span class="o">[</span><span class="n">i</span><span class="o">];</span> <span class="n">j</span><span class="o">++)</span>
+                <span class="n">bw</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="s">"\n"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="n">br</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="n">bw</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+:ET
