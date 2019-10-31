@@ -2,8 +2,8 @@
 title: 병구's Blog
 tagline: "Develope Story"
 description: 'A Jekyll theme adapted from <a href="http://lanyon.getpoole.com/" target="_blank">Lanyon</a>. Made by <a href="http://codinfox.github.io" target="_blank">@codinfox</a>.'
-baseurl: "/jbj616"
-url: http://jbj616.github.io/
+baseurl: ""
+url: https://jbj616.github.io/
 logo: "/public/logo.png"
 
 # Site configurations
