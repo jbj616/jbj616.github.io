@@ -1,0 +1,330 @@
+I"Vm<h2 id="스트림-api">스트림 API</h2>
+
+<blockquote>
+  <p>스트림이란?</p>
+</blockquote>
+
+<p>: 데이터를 추상화하여 다루어 다양한 방식으로 저장된 데이터를 읽고 쓰기 위한 방법</p>
+
+<ul>
+  <li>List, 배열의 iterator나 반복문 사용의 코드 길이가 매우 길고 재사용 힘듦 =&gt; 해결책</li>
+</ul>
+
+<p><strong>특징</strong></p>
+
+<ol>
+  <li>외부 반복을 통해 작업하는 컬렉션과는 달리 내부 반복을 통해 작업을 수행함
+    <ul>
+      <li>내부 반복이라는 것은 반복문을 메서드의 내부에 숨길 수 있다는 것을 의미</li>
+    </ul>
+  </li>
+  <li>
+    <p>재사용이 가능한 컬렉션과는 달리 단 한 번만 사용할 수 있음.</p>
+  </li>
+  <li>
+    <p>원본 데이터를 변경하지 않음.</p>
+  </li>
+  <li>
+    <p>스트림의 연산은 필터-맵 기반의 API를 사용하여 지연연산을 통해 성능을 최적화함.</p>
+  </li>
+  <li>
+    <p>parallelStream() 메소드를 통한 손쉬운 병렬 처리를 지원함.</p>
+
+    <ul>
+      <li>여러쓰레드가 처리해주니 병렬스트림이 항상 성능면에서 유리해보일 수 있지만 애플리케이션에서 사용하는 쓰레드가 많거나 스트림의 요소 수가 많지 않다면 오히려 쓰레드를 사용하는데 드는 오버헤드가 더 클 수도 있다</li>
+    </ul>
+  </li>
+</ol>
+
+<p>부정적인 입장 : <a href="https://homoefficio.github.io/2016/06/26/for-loop-%EB%A5%BC-Stream-forEach-%EB%A1%9C-%EB%B0%94%EA%BE%B8%EC%A7%80-%EB%A7%90%EC%95%84%EC%95%BC-%ED%95%A0-3%EA%B0%80%EC%A7%80-%EC%9D%B4%EC%9C%A0/">https://homoefficio.github.io/2016/06/26/for-loop-%EB%A5%BC-Stream-forEach-%EB%A1%9C-%EB%B0%94%EA%BE%B8%EC%A7%80-%EB%A7%90%EC%95%84%EC%95%BC-%ED%95%A0-3%EA%B0%80%EC%A7%80-%EC%9D%B4%EC%9C%A0/</a></p>
+
+<blockquote>
+  <p>동작 흐름</p>
+</blockquote>
+
+<p>데이터 소스 =&gt; 중개연산(필터) - 스트림의 변환 =&gt; 중개 연산(맵) - 스트림의 사용=&gt; 최종 연산</p>
+
+<hr />
+
+<blockquote>
+  <p>스트림 생성</p>
+</blockquote>
+
+<ol>
+  <li>컬렉션</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+<span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">stream</span><span class="o">();</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span> 
+</code></pre></div></div>
+
+<p>forEach() =&gt; 스트림의 요소를 하나씩 소모하면서 순차적 접근 (원본 데이터는 그대로 유지)</p>
+
+<ol>
+  <li>배열</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span><span class="s">"하나"</span><span class="o">,</span> <span class="s">"둘"</span><span class="o">,</span> <span class="s">"셋"</span><span class="o">,</span> <span class="s">"넷"</span><span class="o">};</span>
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream1</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arr</span><span class="o">);</span>
+<span class="n">stream1</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span><span class="o">-&gt;</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span><span class="o">+</span><span class="s">" "</span><span class="o">));</span> <span class="c1">//하나 둘 셋 넷</span>
+
+<span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream2</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arr</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span> <span class="c1">//subString</span>
+<span class="n">stream2</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span><span class="o">+</span><span class="s">" "</span><span class="o">));</span> <span class="c1">//둘 셋</span>
+</code></pre></div></div>
+
+<p>-&gt; 컬렉션과 차이 배열의 특정 부분만 이용할 수 있음.</p>
+
+<p>Int, long 타입이 있는 Stream은 Stream 앞에 타입을 적어준다 ex) IntStream, LongStream…</p>
+
+<ol>
+  <li>가변 매개변수</li>
+</ol>
+
+<pre><code class="language-java ">Stream&lt;Double&gt; stream = Stream.of(4.2, 2.5, 3.1, 1.9);
+stream.forEach(System.out::println);
+</code></pre>
+
+<p>of() 메소드를 사용하여 가변 매개변수를 전달받아 스트림 생성 가능</p>
+
+<ol>
+  <li>지정된 범위의 연속된 정수</li>
+</ol>
+
+<p>range(), rangeClosed()</p>
+
+<ul>
+  <li>range() : 시작 정수를 포함하지만, 명시된 마지막 정수는 포함하지 않는 스트림</li>
+  <li>rangeClosed() : 작 정수뿐만 아니라 명시된 마지막 정수까지도 포함하는 스트림을 생성</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">IntStream</span> <span class="n">stream1</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+<span class="n">stream1</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span> <span class="c1">//1부터 4이전까지 1 2 3</span>
+
+<span class="nc">IntStream</span> <span class="n">stream2</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+<span class="n">stream2</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span> <span class="c1">//1부터 4까지 1 2 3 4</span>
+</code></pre></div></div>
+
+<ol>
+  <li>람다 표현식</li>
+</ol>
+
+<ul>
+  <li>iterate() : 시드로 명시된 값을 람다 표현식에 사용하여 반환된 값을 다시 시드로 사용하는 방식으로 무한 스트림을 생성
+    <ul>
+      <li>이해하기 어렵 -&gt; 예제</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">IntStream</span> <span class="n">stream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">iterate</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span><span class="o">+</span><span class="mi">2</span><span class="o">);</span><span class="c1">//2,4,6,...</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">.</span><span class="na">iterate</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span> <span class="c1">//조건</span>
+                <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">));</span> <span class="c1">//0,1,2,...,9</span>
+</code></pre></div></div>
+
+<ul>
+  <li>generate()</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">generate</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="s">"Echo"</span><span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span> <span class="c1">//echo 5번 </span>
+</code></pre></div></div>
+
+<ol>
+  <li>빈 스트림</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Object</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">stream</span><span class="o">.</span><span class="na">count</span><span class="o">());</span> <span class="c1">// 스트림의 요소의 총 개수를 출력함.</span>
+</code></pre></div></div>
+
+<p>-&gt; 말그대로 빈 스트림</p>
+
+<hr />
+
+<blockquote>
+  <p>스트림의 중개 연산</p>
+</blockquote>
+
+<ol>
+  <li>스트림 필터링</li>
+</ol>
+
+<ul>
+  <li>distinct() : 스트림에서 중복 요소 제거 (equal() 기준)</li>
+  <li>filter() : 말 그대로 필터링</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">IntStream</span> <span class="n">stream1</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">6</span><span class="o">);</span>
+<span class="nc">IntStream</span> <span class="n">stream2</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">6</span><span class="o">);</span>
+<span class="c1">// 스트림에서 중복된 요소를 제거함.</span>
+<span class="n">stream1</span><span class="o">.</span><span class="na">distinct</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span>
+<span class="n">stream2</span><span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">e</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span>
+<span class="c1">//홀수만</span>
+</code></pre></div></div>
+
+<ol>
+  <li>스트림 변환</li>
+</ol>
+
+<ul>
+  <li>map() : 반환값들로 이루워진 스트림</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span><span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">,</span> <span class="s">"HI"</span><span class="o">,</span> <span class="s">"Bye"</span><span class="o">,</span> <span class="s">"good"</span><span class="o">);</span>
+<span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()).</span><span class="na">forEach</span><span class="o">(</span><span class="n">system</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>flatMap() : 스트림들을 하나의 스트림으로 합쳐서 하나의 새로운 스트림</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">String</span><span class="o">[]</span> <span class="n">arr</span> <span class="o">=</span> <span class="o">{</span><span class="s">"I study hard"</span><span class="o">,</span> <span class="s">"You study JAVA"</span><span class="o">,</span> <span class="s">"I am hungry"</span><span class="o">};</span>
+        
+        <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">stream</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">stream</span><span class="o">(</span><span class="n">arr</span><span class="o">);</span>
+        <span class="n">stream</span><span class="o">.</span><span class="na">flatMap</span><span class="o">(</span><span class="n">s</span> <span class="o">-&gt;</span> <span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">split</span><span class="o">(</span><span class="s">" "</span><span class="o">))).</span><span class="na">forEach</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">::</span><span class="n">println</span><span class="o">);</span> 
+</code></pre></div></div>
+
+<p>=&gt; 단어별 출력</p>
+
+<ol>
+  <li>스트림 제한</li>
+</ol>
+
+<ul>
+  <li>skip() : 해당 변수를 첫번째 요소로 지정함.</li>
+  <li>limit(개수) : 개수만큼 출력</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">IntStream</span> <span class="n">stream1</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">10</span><span class="o">);</span>
+<span class="nc">IntStream</span> <span class="n">stream2</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">10</span><span class="o">);</span>
+<span class="nc">IntStream</span> <span class="n">stream3</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">10</span><span class="o">);</span>
+
+<span class="n">stream1</span><span class="o">.</span><span class="na">skip</span><span class="o">(</span><span class="mi">4</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">n</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span><span class="c1">//4 5 6 7 8 9 </span>
+<span class="n">stream2</span><span class="o">.</span><span class="na">limit</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">n</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span><span class="c1">//0 1 2 3 4</span>
+<span class="n">stream3</span><span class="o">.</span><span class="na">skip</span><span class="o">(</span><span class="mi">3</span><span class="o">).</span><span class="na">limit</span><span class="o">(</span><span class="mi">5</span><span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">n</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">n</span> <span class="o">+</span> <span class="s">" "</span><span class="o">));</span><span class="c1">// 3 4 5 6 7</span>
+</code></pre></div></div>
+
+<ol>
+  <li>스트림 정렬</li>
+</ol>
+
+<p>정렬은 배열과 동일 sorted();</p>
+
+<ul>
+  <li>
+    <p>역 정렬시</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stream</span><span class="o">.</span><span class="na">sorted</span><span class="o">(</span><span class="nc">Camparator</span><span class="o">.</span><span class="na">reverseOrder</span><span class="o">())</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<ol>
+  <li>스트림 연산 결과 확인</li>
+</ol>
+
+<p>peek()</p>
+
+<ul>
+  <li>foreach 는 스트림을 소비해서 다음 연산이 불가능하고 peek 는 스트림을 소비하지 않아서 다음 연산이 가능함</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">"one"</span><span class="o">,</span> <span class="s">"two"</span><span class="o">,</span> <span class="s">"three"</span><span class="o">,</span> <span class="s">"four"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">filter</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">e</span><span class="o">.</span><span class="na">length</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">peek</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Filtered value: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">String:</span><span class="o">:</span><span class="n">toUpperCase</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">peek</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Mapped value: "</span> <span class="o">+</span> <span class="n">e</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nc">Collectors</span><span class="o">.</span><span class="na">toList</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>Filtered value: three
+Mapped value: THREE
+Filtered value: four
+Mapped value: FOUR</p>
+
+<hr />
+
+<blockquote>
+  <p>스트림 최종 연산</p>
+</blockquote>
+
+<ol>
+  <li>
+    <p>요소의 출력 : forEach()</p>
+  </li>
+  <li>
+    <p>요소의 소모 : reduce()</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">ages</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;();</span>
+<span class="n">ages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span><span class="n">ages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span><span class="n">ages</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span><span class="c1">//1,2,3</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">ages</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">reduce</span><span class="o">((</span><span class="n">b</span><span class="o">,</span><span class="n">c</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="o">).</span><span class="na">get</span><span class="o">());</span><span class="c1">//1+2+3=6</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>요소의 검색 : findFirst(), findAny()</p>
+  </li>
+  <li>
+    <p>요소의 검사 : anyMatch(), allMatch(), noneMatch()</p>
+
+    <ul>
+      <li>
+        <p>anyMatch() : 해당 스트림의 일부 요소가 특정 조건을 만족할 경우에 true를 반환함.</p>
+      </li>
+      <li>
+        <p>allMatch() : 해당 스트림의 모든 요소가 특정 조건을 만족할 경우에 true를 반환함.</p>
+      </li>
+      <li>
+        <p>noneMatch() : 해당 스트림의 모든 요소가 특정 조건을 만족하지 않을 경우에 true를 반환함.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>요소의 통계 : count(), min(), max()</p>
+  </li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">IntStream</span> <span class="n">stream</span> <span class="o">=</span> <span class="nc">IntStream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">30</span><span class="o">,</span><span class="mi">90</span><span class="o">,</span><span class="mi">70</span><span class="o">,</span><span class="mi">10</span><span class="o">);</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">pritnln</span><span class="o">(</span><span class="n">stream</span><span class="o">.</span><span class="na">count</span><span class="o">());</span>
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>요소의 연산 : sum(), average()</p>
+  </li>
+  <li>
+    <p>요소의 수집 : collect()</p>
+
+    <p>자세한 내용 : <a href="http://tcpschool.com/java/java_stream_terminal">http://tcpschool.com/java/java_stream_terminal</a></p>
+  </li>
+</ol>
+
+<hr />
+
+<p>참고자료</p>
+
+<p>예제</p>
+
+<p><a href="https://www.baeldung.com/java-streams-peek-api">https://www.baeldung.com/java-streams-peek-api</a></p>
+
+<p><a href="https://jeong-pro.tistory.com/165">https://jeong-pro.tistory.com/165</a></p>
+
+<p>개념 <a href="http://tcpschool.com/">http://tcpschool.com/</a></p>
+
+<p>추가설명</p>
+
+<p><a href="http://iloveulhj.github.io/posts/java/java-stream-api.html">http://iloveulhj.github.io/posts/java/java-stream-api.html</a></p>
+
+:ET

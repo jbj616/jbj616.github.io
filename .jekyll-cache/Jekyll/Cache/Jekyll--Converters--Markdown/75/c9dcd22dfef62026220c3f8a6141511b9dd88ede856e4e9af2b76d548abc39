@@ -1,0 +1,242 @@
+I"�9<h2 id="자바-람다식">자바 람다식</h2>
+
+<blockquote>
+  <p>람다식이란?</p>
+</blockquote>
+
+<p>: 함수를 변수처럼 사용</p>
+
+<ul>
+  <li>
+    <p>함수가 필요한 이유</p>
+
+    <p>이급시민(구조체가 값의 구조를 자유롭게 전달 할 수 없음) -&gt; 일급시민</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>장점</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>불필요한 코드를 줄여줌</p>
+  </li>
+  <li>
+    <p>가독성을 높여줌</p>
+
+    <p>=&gt; 부정적인 입장도 있음.</p>
+  </li>
+  <li>
+    <p>병렬 프로그래밍</p>
+  </li>
+  <li>
+    <p>메소드로 행동방식을 전달</p>
+  </li>
+  <li>
+    <p>성능</p>
+
+    <p>=&gt; 부정적인 입장도 있음.</p>
+  </li>
+</ul>
+
+<p>가독성 및 성능에 대한 부정적 입장 + 주의사항 - <a href="https://okky.kr/article/329818">https://okky.kr/article/329818</a></p>
+
+<blockquote>
+  <p>단점</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>람다식의 호출을 위해 직접 메소드를 불러야 함</p>
+  </li>
+  <li>
+    <p>재귀 람다식 호출이 까다로움</p>
+  </li>
+  <li>
+    <p>클로저가 지원되지 않음</p>
+
+    <ul>
+      <li>
+        <p>클로저 : 자신을 둘러싼 context 내의 변수에 접근함. 즉, 외부 범위의 변수를 함수 내부로 바인딩하는 기술</p>
+
+        <ul>
+          <li>자신을 둘러싼 외부 함수가 종료되더라도 이 값이 유지</li>
+        </ul>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="kd">private</span> <span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="nf">calculate</span><span class="o">(</span><span class="nc">Stream</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="n">stream</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">a</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">//a = 10 값 변경 X</span>
+    <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">);</span>
+  <span class="o">}</span>
+</code></pre></div>        </div>
+
+        <p>=&gt; calculate 메소드에서 map메소드 호출</p>
+
+        <p>=&gt; a,b는 final로 간주</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>함수 외부의 값을 변경함</p>
+  </li>
+</ul>
+
+<p><strong>메소드</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">min</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="n">inty</span><span class="o">){</span>
+  <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">?</span> <span class="n">x</span> <span class="o">:</span> <span class="n">y</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>=&gt; <strong>람다 표현식</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="n">x</span><span class="o">,</span><span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">?</span> <span class="n">x</span> <span class="o">:</span> <span class="n">y</span><span class="o">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>클래스를 작성하고 객체를 생성하지 않아도 메소드를 사용할 수 있음.</p>
+  </li>
+  <li>
+    <p>익명 클래스와 같음</p>
+
+    <ul>
+      <li>익명 클래스 : 클래스의 선언과 동시에 객체를 생성하기 때문에 하나의 객체만을 생성할 수 있는 클래스</li>
+    </ul>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Object</span><span class="o">(){</span>
+  <span class="kt">int</span> <span class="nf">min</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">){</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">?</span> <span class="n">x</span> <span class="o">:</span> <span class="n">y</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<blockquote>
+  <p>기본 문법</p>
+</blockquote>
+
+<p><strong>(매개변수목록) -&gt; {함수 몸체}</strong></p>
+
+<ul>
+  <li>
+    <p>매개변수의 타임을 추론할 수 있을 경우 타입 생략가능</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span><span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">};</span> <span class="c1">// (int x, int y) -&gt; {return x + y;}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>매개변수가 하나인 경우 ()를 생각할 수 있음.</p>
+
+    <p><code class="highlighter-rouge">a -&gt; a*4</code></p>
+  </li>
+  <li>
+    <p>함수의 몸체가 하나의 명령문만으로 이루어졌을 때 중괄호 {}를 생략 할 수 있음. ( 세미콜론 ; 은 붙이지 않는다 )</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">name</span> <span class="o">+</span> <span class="s">"="</span><span class="o">+</span><span class="n">i</span><span class="o">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>함수의 몸체가 하나의 return 문으로 이루어진 경우 중괄호 {} 생략 불가</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+  <span class="k">return</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="n">a</span> <span class="o">:</span> <span class="n">b</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>return 문 대신 표현식을 사용할 수 있으며, 이때 반환값은 표현식의 결괏값이 됨. ( 세미콜론(;)은 붙이지 않는다 )</p>
+  </li>
+  <li>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span> <span class="o">?</span> <span class="nl">a:</span> <span class="n">b</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>인자가 없으면 빈 괄호로 표시</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">()</span> <span class="o">-&gt;</span> <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"hihi"</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<blockquote>
+  <p>예제</p>
+</blockquote>
+
+<p><strong>스레드 생성과 람다 표현식 비교</strong></p>
+
+<ul>
+  <li>
+    <p>기존 스레드 생성</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="k">new</span> <span class="nc">Runnable</span><span class="o">(){</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(){</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"스레드 생성"</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>람다식</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Thread</span><span class="o">(()-&gt;{</span>
+  <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"람다식으로 스레드 생성"</span><span class="o">);</span>
+<span class="o">}).</span><span class="na">start</span><span class="o">();</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p><strong>함수형 인터페이스</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">Calc</span><span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">min</span><span class="o">(</span><span class="kt">int</span> <span class="n">x</span><span class="o">,</span> <span class="kt">int</span> <span class="n">y</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="n">calss</span> <span class="nc">Lambda</span><span class="o">{</span>
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">){</span>
+    <span class="nc">Calc</span> <span class="n">minNum</span> <span class="o">=</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">?</span> <span class="n">x</span> <span class="o">:</span> <span class="n">y</span><span class="o">;</span> <span class="c1">//추상 메소드 구현</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">minNum</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">));</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>메소드 참조</p>
+</blockquote>
+
+<p>: 람다 표현식이 단 하나의 메소드만을 호출할 때 해당 람다 표현식에서 불필요한 매개변수를 제거하고 사용</p>
+
+<p><strong>문법</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">클래스이름</span><span class="o">::</span><span class="err">메소드이름</span>
+<span class="err">또는</span>
+<span class="err">참조변수이름</span><span class="o">::</span><span class="err">메소드이름</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">DoubleUnaryOperator</span> <span class="n">oper</span><span class="o">;</span> <span class="c1">//인터페이스</span>
+
+<span class="n">oper</span> <span class="o">=</span> <span class="o">(</span><span class="n">n</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">n</span><span class="o">);</span> <span class="c1">//람다</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">oper</span><span class="o">.</span><span class="na">applyAsDouble</span><span class="o">(-</span><span class="mi">5</span><span class="o">));</span>
+
+<span class="n">oper</span> <span class="o">=</span> <span class="nl">Math:</span><span class="o">:</span><span class="n">abs</span><span class="o">;</span> <span class="c1">//메소드 참조</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">oper</span><span class="o">.</span><span class="na">applyAsDouble</span><span class="o">(-</span><span class="mi">5</span><span class="o">))</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>참고자료</p>
+</blockquote>
+
+<p><a href="https://coding-factory.tistory.com/">https://coding-factory.tistory.com/</a></p>
+
+<p><a href="https://m.blog.naver.com/2feelus/220695347170">https://m.blog.naver.com/2feelus/220695347170</a></p>
+
+<p><a href="http://tcpschool.com/java/java_lambda_concept">http://tcpschool.com/java/java_lambda_concept</a></p>
+
+<p><a href="https://ryan-han.com/post/java/java-lambda/">https://ryan-han.com/post/java/java-lambda/</a></p>
+
+<p><a href="https://futurecreator.github.io">https://futurecreator.github.io</a></p>
+
+<p><a href="https://github.com/11STNEWBIE/java-8-study/blob/master/Java8Action/chapter1/1장.md#자바-8에-추가된-새로운-개념">https://github.com/11STNEWBIE/java-8-study/blob/master/Java8Action/chapter1/1장.md#자바-8에-추가된-새로운-개념</a></p>
+:ET

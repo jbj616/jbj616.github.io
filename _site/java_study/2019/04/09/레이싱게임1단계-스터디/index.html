@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      2019-04-09 [java-study] 레이싱게임1단계 스터디 &middot; 병구's Blog
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/jbj616/public/css/main.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/jbj616/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/jbj616/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG"> </script>
+  <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
+  </script>
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <div class="sidebar-personal-info">
+      <div class="sidebar-personal-info-section">
+        <a href="http://gravatar.com/3c2986ad7ac1f2230ea3596f44563328">
+          <img src="http://www.gravatar.com/avatar/3c2986ad7ac1f2230ea3596f44563328?s=350" title="View on Gravatar"
+            alt="View on Gravatar" />
+        </a>
+      </div>
+      <div class="sidebar-personal-info-section">
+        <p>A passionate <strong>developer and researcher</strong>, learning to be a giant.</p>
+      </div>
+      
+      
+      
+      <div class="sidebar-personal-info-section">
+        <p> Follow me:
+          
+          
+          
+          <a href="https://github.com/jbj616">
+            <i class="fa fa-github" aria-hidden="true"></i>
+          </a>
+          
+          |
+          
+          
+          
+          <a href="mailto:jbj616@gmail.com">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </a>
+          
+          
+          
+        </p>
+      </div>
+      
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    
+    
+    
+    
+
+    
+
+    <span class="">
+      <a class="sidebar-nav-item " href="/jbj616/">
+        Home
+      </a>
+
+      
+    </span>
+
+    
+    
+    
+    
+
+    
+
+    <span class="foldable">
+      <a class="sidebar-nav-item " href="/jbj616/blog/">
+        Blog
+      </a>
+
+      
+      
+      
+      
+      
+      <a class="sidebar-nav-item sidebar-nav-item-sub "
+        href="/jbj616/blog/categories/">
+        Categories
+      </a>
+      
+      
+      
+      
+      
+      
+      <a class="sidebar-nav-item sidebar-nav-item-sub "
+        href="/jbj616/blog/tags/">
+        Tags
+      </a>
+      
+      
+    </span>
+
+    
+    
+    
+    
+
+    
+
+    <span class="">
+      <a class="sidebar-nav-item " href="/jbj616/about/">
+        About
+      </a>
+
+      
+    </span>
+
+    
+
+    <span class="sidebar-nav-item">Currently v1.0.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <!-- <p>
+    &copy; 2019 Codinfox. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    </p> -->
+  </div>
+
+  <div class="sidebar-item">
+    <p>
+      Powered by <a href="http://jekyllrb.com">jekyll</a> and <a href="http://codinfox.github.io">codinfox-lanyon</a>
+    </p>
+  </div>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/jbj616/" title="Home" title="병구's Blog">
+              <img class="masthead-logo" src="/jbj616/public/logo.png"/>
+            </a>
+            <small>Develope Story</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">2019-04-09 [java-study] 레이싱게임1단계 스터디</h1>
+  <span class="post-date">09 Apr 2019</span>
+   | 
+  
+    <a href="/jbj616/tags/#java" class="post-tag">java</a>
+  
+    <a href="/jbj616/tags/#tdd" class="post-tag">TDD</a>
+  
+  
+  <article>
+    <blockquote>
+  <p>기능 요구사항</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>주어진 횟수 동안 n대의 자동차는 전진 또는 멈출 수 있다.</p>
+  </li>
+  <li>
+    <p>실행 규칙은 n대의 자동차가 전진 또는 멈춤 여부를 판단하는 것을 한번의 횟수로 판단한다.</p>
+  </li>
+  <li>
+    <p>사용자는 몇 대의 자동차로 몇 번 이동을 할 것인지를 입력할 수 있어야 한다.</p>
+  </li>
+  <li>
+    <p>전진하는 조건은 0에서 9 사이에서 random 값을 구한 후 random 값이 4이상일 경우이다.</p>
+  </li>
+  <li>
+    <p>자동차의 상태를 화면에 출력한다. 어느 시점에 출력할 것인지에 대한 제약은 없다.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>구현중 공부 내용</p>
+</blockquote>
+
+<p><strong>StringBuilder 사용 이유</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">String</code> : 기존의 문자열에 문자를 추가한다면 <strong>새로운 객체를 만들어 지정하고 기존의 문자열 객체는 쓰레기</strong>가 된다.</li>
+  <li><code class="highlighter-rouge">StringBuilder</code> : 기존의 문자열 객체의 크기를 증가시켜 값을 더한다. // 동기화 기능 제공 X</li>
+  <li><code class="highlighter-rouge">StringBuffer</code> : 기존의 문자열 객체의 크기를 증가시켜 값을 더한다. // 동기화 기능 제공 O</li>
+</ul>
+
+<p>연산이 증가하면 성능 Builder &gt; Buffer &gt; String</p>
+
+<p><a href="https://jbj616.github.io/java_study/객체지향-생활-체조-정리/#"><strong>객체지향 생활체조</strong></a></p>
+
+<blockquote>
+  <p>리뷰 받은 내용</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>무조건 메소드 접근 제한자 public 으로 하지마라</p>
+  </li>
+  <li>
+    <p>View, Control, Model 세가지로 분류하여 작업하자</p>
+  </li>
+  <li>
+    <p>어디서든 사용하는 메소드는 util 클래스를 만들어 사용하자</p>
+  </li>
+  <li>
+    <p>상수에도 접근제한자를 붙이자</p>
+  </li>
+  <li>
+    <p>배열 대신 List 자료구조를 활용하자</p>
+  </li>
+  <li>
+    <p>get, set 사용을 자제하자</p>
+
+    <ul>
+      <li>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>String track = car.showTrack("-"); 을 resultView에서 사용하고
+car에는
+    
+public String showTrack(String trackShape) {
+       StringBuffer track = new StringBuffer();
+       for(int i=0; i&lt;position; i++) {
+              track.append(trackShape);
+       }
+           
+       return track.toString();
+}
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>InputView, ResultView 메소드를 static으로 선언하여 객체를 선언하지 않도록하자</li>
+  <li>객체에 담긴 내용은 객체를 이해하고 구현하도록하자</li>
+</ul>
+
+<blockquote>
+  <p>소스</p>
+</blockquote>
+
+<p><strong>model</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">model</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">position</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">showTrack</span><span class="o">(</span><span class="kt">char</span> <span class="n">trackShape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">StringBuffer</span> <span class="n">track</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuffer</span><span class="o">();</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">position</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">track</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">trackShape</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">track</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">util.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGame</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="no">CONDITION_TO_MOVE</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="no">RANDOM_NUMBER_RANGE</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">numberOfAttempts</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RacingGame</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">playGame</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfAttempts</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">moveCars</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">cars</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">readyGame</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberOfCars</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberOfAttempts</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">numberOfAttempts</span> <span class="o">=</span> <span class="n">numberOfAttempts</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfCars</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">cars</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">moveCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">moveOrStopCar</span><span class="o">(</span><span class="n">car</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">canMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="no">CONDITION_TO_MOVE</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">moveOrStopCar</span><span class="o">(</span><span class="nc">Car</span> <span class="n">car</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">canMove</span><span class="o">(</span><span class="nc">RandomGenerator</span><span class="o">.</span><span class="na">getRandomNumber</span><span class="o">(</span><span class="no">RANDOM_NUMBER_RANGE</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>util</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">util</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomGenerator</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getRandomNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">range</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Random</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">range</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>view</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">view</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputView</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">InputNumberOfCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"자동차 대수는 몇 대 인가요?"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">).</span><span class="na">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">InputTime</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"시도할 횟수는 몇 회 인가요?"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">).</span><span class="na">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">view</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResultView</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">char</span> <span class="no">HYPHEN</span> <span class="o">=</span> <span class="sc">'-'</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">showRacingCarResult</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="no">HYPHEN</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>TDD</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarTest</span> <span class="o">{</span>
+
+    <span class="nc">Car</span> <span class="n">car</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testShowTrack</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">""</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="sc">'-'</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testShowTrackAfterMove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"-"</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="sc">'-'</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">model.RacingGame</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGameTest</span> <span class="o">{</span>
+
+    <span class="nc">RacingGame</span> <span class="n">racingGame</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">(){</span>
+        <span class="n">racingGame</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingGame</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">test</span><span class="err">준비하지않고</span><span class="nc">PlayGame</span><span class="o">(){</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">tmpCar</span> <span class="o">=</span> <span class="n">racingGame</span><span class="o">.</span><span class="na">playGame</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">tmpCar</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">test</span><span class="err">준비하고</span><span class="nc">PlayGame</span><span class="o">(){</span>
+        <span class="n">racingGame</span><span class="o">.</span><span class="na">readyGame</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">5</span><span class="o">);</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">tmpCar</span> <span class="o">=</span> <span class="n">racingGame</span><span class="o">.</span><span class="na">playGame</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">tmpCar</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/06/01/%E1%84%85%E1%85%A9%E1%84%84%E1%85%A9-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8/">
+            2019-06-01 [java-study] 로또2단계 스터디
+            <small>01 Jun 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/05/09/%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%8D%A7%EC%85%88-%EA%B3%84%EC%82%B0%EA%B8%B0/">
+            2019-05-09 [java-study] 문자열 덧셈 계산기 스터디
+            <small>09 May 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/04/30/%EC%9E%90%EB%B0%94-%EB%9E%8C%EB%8B%A4%EC%8B%9D/">
+            2019-04-04 [java-study] java8 람다식
+            <small>30 Apr 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/java_study/2019/04/09/%EB%A0%88%EC%9D%B4%EC%8B%B1%EA%B2%8C%EC%9E%841%EB%8B%A8%EA%B3%84-%EC%8A%A4%ED%84%B0%EB%94%94/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/java_study/2019/04/09/레이싱게임1단계 스터디'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//your_short_name.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if (target === toggle) {
+            checkbox.checked = !checkbox.checked;
+            e.preventDefault();
+          } else if (checkbox.checked && !sidebar.contains(target)) {
+            /* click outside the sidebar when sidebar is open */
+            checkbox.checked = false;
+          }
+        }, false);
+      })(document);
+    </script>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-00000000-1', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  
+  <script id="dsq-count-scr" src="//your_short_name.disqus.com/count.js" async></script>
+  
+</html>

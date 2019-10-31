@@ -1,8 +1,8 @@
 # Site Info
-title: Codinfox Lanyon
-tagline: "A Jekyll theme based on Lanyon"
+title: 병구's Blog
+tagline: "Develope Story"
 description: 'A Jekyll theme adapted from <a href="http://lanyon.getpoole.com/" target="_blank">Lanyon</a>. Made by <a href="http://codinfox.github.io" target="_blank">@codinfox</a>.'
-baseurl: "/blog"
+baseurl: "/jbj616"
 url: http://jbj616.github.io/
 logo: "/public/logo.png"
 
@@ -28,12 +28,11 @@ author:
   description: A passionate <strong>developer and researcher</strong>, learning to be a giant.
   gravatar: 3c2986ad7ac1f2230ea3596f44563328 # md5 hash of your email address
   contact:
-    linkedin: https://www.linkedin.com/in/lizhihao
-    github: https://github.com/codinfox
+    github: https://github.com/jbj616
     # facebook:  <hide>
-    twitter: https://twitter.com/Li_Zhihao
-    weibo: http://weibo.com/41173780
-    email: http://www.google.com/recaptcha/mailhide/d?k=01I3lZFiZYng9N3QxYEtsDaQ==&c=31wAnZkuKqcG0ATAqJN8Z3ln5kkYLA9TwkGc-IbygpM=
+    #twitter: https://twitter.com/Li_Zhihao
+    #weibo: http://weibo.com/41173780
+    email: mailto:jbj616@gmail.com
 
 # Navigation (2nd level links supported)
 nav:
@@ -45,16 +44,16 @@ nav:
     - { Tags: "/blog/tags/" }
   About:
     - "/about/"
-  Github Project:
-    - "http://codinfox.github.io/"
+  # Github Project:
+  #   - "http://jbj616.github.io/"
 
 # Where are tags and categories displayed
-tag_page: "/blog/tags/"
+tag_page: "/tags/"
 category_page: "/blog/categories/"
 
 hero:
-  image: /public/img/we_will_be_giants_by_yalestewart.jpg
-  caption: Original Artwork &copy; <a href="http://yalestewart.deviantart.com/art/We-Will-Be-Giants-370176475">Yale Stewart</a>
+  image: /public/img/beer.jpg
+  caption: 맥주 조아! &copy; <a href="https://pixabay.com/">Pixabay</a>
 
 # Puglins
 mathjax: true # whether support mathjax

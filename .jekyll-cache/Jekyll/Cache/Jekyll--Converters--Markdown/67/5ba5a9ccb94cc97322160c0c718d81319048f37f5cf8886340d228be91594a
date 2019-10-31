@@ -1,0 +1,281 @@
+I"�R<blockquote>
+  <p>기능 요구사항</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>주어진 횟수 동안 n대의 자동차는 전진 또는 멈출 수 있다.</p>
+  </li>
+  <li>
+    <p>실행 규칙은 n대의 자동차가 전진 또는 멈춤 여부를 판단하는 것을 한번의 횟수로 판단한다.</p>
+  </li>
+  <li>
+    <p>사용자는 몇 대의 자동차로 몇 번 이동을 할 것인지를 입력할 수 있어야 한다.</p>
+  </li>
+  <li>
+    <p>전진하는 조건은 0에서 9 사이에서 random 값을 구한 후 random 값이 4이상일 경우이다.</p>
+  </li>
+  <li>
+    <p>자동차의 상태를 화면에 출력한다. 어느 시점에 출력할 것인지에 대한 제약은 없다.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>구현중 공부 내용</p>
+</blockquote>
+
+<p><strong>StringBuilder 사용 이유</strong></p>
+
+<ul>
+  <li><code class="highlighter-rouge">String</code> : 기존의 문자열에 문자를 추가한다면 <strong>새로운 객체를 만들어 지정하고 기존의 문자열 객체는 쓰레기</strong>가 된다.</li>
+  <li><code class="highlighter-rouge">StringBuilder</code> : 기존의 문자열 객체의 크기를 증가시켜 값을 더한다. // 동기화 기능 제공 X</li>
+  <li><code class="highlighter-rouge">StringBuffer</code> : 기존의 문자열 객체의 크기를 증가시켜 값을 더한다. // 동기화 기능 제공 O</li>
+</ul>
+
+<p>연산이 증가하면 성능 Builder &gt; Buffer &gt; String</p>
+
+<p><a href="https://jbj616.github.io/java_study/객체지향-생활-체조-정리/#"><strong>객체지향 생활체조</strong></a></p>
+
+<blockquote>
+  <p>리뷰 받은 내용</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>무조건 메소드 접근 제한자 public 으로 하지마라</p>
+  </li>
+  <li>
+    <p>View, Control, Model 세가지로 분류하여 작업하자</p>
+  </li>
+  <li>
+    <p>어디서든 사용하는 메소드는 util 클래스를 만들어 사용하자</p>
+  </li>
+  <li>
+    <p>상수에도 접근제한자를 붙이자</p>
+  </li>
+  <li>
+    <p>배열 대신 List 자료구조를 활용하자</p>
+  </li>
+  <li>
+    <p>get, set 사용을 자제하자</p>
+
+    <ul>
+      <li>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>String track = car.showTrack("-"); 을 resultView에서 사용하고
+car에는
+    
+public String showTrack(String trackShape) {
+       StringBuffer track = new StringBuffer();
+       for(int i=0; i&lt;position; i++) {
+              track.append(trackShape);
+       }
+           
+       return track.toString();
+}
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+  <li>InputView, ResultView 메소드를 static으로 선언하여 객체를 선언하지 않도록하자</li>
+  <li>객체에 담긴 내용은 객체를 이해하고 구현하도록하자</li>
+</ul>
+
+<blockquote>
+  <p>소스</p>
+</blockquote>
+
+<p><strong>model</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">model</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Car</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">position</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Car</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">move</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">position</span><span class="o">++;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">showTrack</span><span class="o">(</span><span class="kt">char</span> <span class="n">trackShape</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">StringBuffer</span> <span class="n">track</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringBuffer</span><span class="o">();</span>
+        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">position</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">track</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">trackShape</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">track</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">util.*</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGame</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="no">CONDITION_TO_MOVE</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="kt">int</span> <span class="no">RANDOM_NUMBER_RANGE</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">numberOfAttempts</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">RacingGame</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">cars</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="nf">playGame</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfAttempts</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">moveCars</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">cars</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">readyGame</span><span class="o">(</span><span class="kt">int</span> <span class="n">numberOfCars</span><span class="o">,</span> <span class="kt">int</span> <span class="n">numberOfAttempts</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">numberOfAttempts</span> <span class="o">=</span> <span class="n">numberOfAttempts</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numberOfCars</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">cars</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">Car</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">moveCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">moveOrStopCar</span><span class="o">(</span><span class="n">car</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="nf">canMove</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&gt;=</span> <span class="no">CONDITION_TO_MOVE</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">moveOrStopCar</span><span class="o">(</span><span class="nc">Car</span> <span class="n">car</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">canMove</span><span class="o">(</span><span class="nc">RandomGenerator</span><span class="o">.</span><span class="na">getRandomNumber</span><span class="o">(</span><span class="no">RANDOM_NUMBER_RANGE</span><span class="o">)))</span> <span class="o">{</span>
+            <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>util</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">util</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RandomGenerator</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">getRandomNumber</span><span class="o">(</span><span class="kt">int</span> <span class="n">range</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Random</span><span class="o">().</span><span class="na">nextInt</span><span class="o">(</span><span class="n">range</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>view</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">view</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Scanner</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">InputView</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">InputNumberOfCars</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"자동차 대수는 몇 대 인가요?"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">).</span><span class="na">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">InputTime</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"시도할 횟수는 몇 회 인가요?"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Scanner</span><span class="o">(</span><span class="nc">System</span><span class="o">.</span><span class="na">in</span><span class="o">).</span><span class="na">nextInt</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">view</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResultView</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">char</span> <span class="no">HYPHEN</span> <span class="o">=</span> <span class="sc">'-'</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">showRacingCarResult</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="nc">Car</span> <span class="n">car</span> <span class="o">:</span> <span class="n">cars</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="no">HYPHEN</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>TDD</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CarTest</span> <span class="o">{</span>
+
+    <span class="nc">Car</span> <span class="n">car</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">car</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Car</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testShowTrack</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">""</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="sc">'-'</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">testShowTrackAfterMove</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">car</span><span class="o">.</span><span class="na">move</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"-"</span><span class="o">,</span> <span class="n">car</span><span class="o">.</span><span class="na">showTrack</span><span class="o">(</span><span class="sc">'-'</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">model.Car</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">model.RacingGame</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Before</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.junit.Test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">junit</span><span class="o">.</span><span class="na">Assert</span><span class="o">.*;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RacingGameTest</span> <span class="o">{</span>
+
+    <span class="nc">RacingGame</span> <span class="n">racingGame</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">(){</span>
+        <span class="n">racingGame</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RacingGame</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">test</span><span class="err">준비하지않고</span><span class="nc">PlayGame</span><span class="o">(){</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">tmpCar</span> <span class="o">=</span> <span class="n">racingGame</span><span class="o">.</span><span class="na">playGame</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="n">tmpCar</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">test</span><span class="err">준비하고</span><span class="nc">PlayGame</span><span class="o">(){</span>
+        <span class="n">racingGame</span><span class="o">.</span><span class="na">readyGame</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="mi">5</span><span class="o">);</span>
+        <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Car</span><span class="o">&gt;</span> <span class="n">tmpCar</span> <span class="o">=</span> <span class="n">racingGame</span><span class="o">.</span><span class="na">playGame</span><span class="o">();</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="n">tmpCar</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+:ET

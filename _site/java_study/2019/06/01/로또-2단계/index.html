@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      2019-06-01 [java-study] 로또2단계 스터디 &middot; 병구's Blog
+    
+  </title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/jbj616/public/css/main.css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700%7CPT+Sans:400">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/jbj616/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/jbj616/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  
+  <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_SVG"> </script>
+  <script type="text/x-mathjax-config">
+MathJax.Hub.Config({ tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ], processEscapes: true } });
+  </script>
+  
+</head>
+
+
+  <body>
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <div class="sidebar-personal-info">
+      <div class="sidebar-personal-info-section">
+        <a href="http://gravatar.com/3c2986ad7ac1f2230ea3596f44563328">
+          <img src="http://www.gravatar.com/avatar/3c2986ad7ac1f2230ea3596f44563328?s=350" title="View on Gravatar"
+            alt="View on Gravatar" />
+        </a>
+      </div>
+      <div class="sidebar-personal-info-section">
+        <p>A passionate <strong>developer and researcher</strong>, learning to be a giant.</p>
+      </div>
+      
+      
+      
+      <div class="sidebar-personal-info-section">
+        <p> Follow me:
+          
+          
+          
+          <a href="https://github.com/jbj616">
+            <i class="fa fa-github" aria-hidden="true"></i>
+          </a>
+          
+          |
+          
+          
+          
+          <a href="mailto:jbj616@gmail.com">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+          </a>
+          
+          
+          
+        </p>
+      </div>
+      
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    
+    
+    
+    
+
+    
+
+    <span class="">
+      <a class="sidebar-nav-item " href="/jbj616/">
+        Home
+      </a>
+
+      
+    </span>
+
+    
+    
+    
+    
+
+    
+
+    <span class="foldable">
+      <a class="sidebar-nav-item " href="/jbj616/blog/">
+        Blog
+      </a>
+
+      
+      
+      
+      
+      
+      <a class="sidebar-nav-item sidebar-nav-item-sub "
+        href="/jbj616/blog/categories/">
+        Categories
+      </a>
+      
+      
+      
+      
+      
+      
+      <a class="sidebar-nav-item sidebar-nav-item-sub "
+        href="/jbj616/blog/tags/">
+        Tags
+      </a>
+      
+      
+    </span>
+
+    
+    
+    
+    
+
+    
+
+    <span class="">
+      <a class="sidebar-nav-item " href="/jbj616/about/">
+        About
+      </a>
+
+      
+    </span>
+
+    
+
+    <span class="sidebar-nav-item">Currently v1.0.0</span>
+  </nav>
+
+  <div class="sidebar-item">
+    <!-- <p>
+    &copy; 2019 Codinfox. This work is liscensed under <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>.
+    </p> -->
+  </div>
+
+  <div class="sidebar-item">
+    <p>
+      Powered by <a href="http://jekyllrb.com">jekyll</a> and <a href="http://codinfox.github.io">codinfox-lanyon</a>
+    </p>
+  </div>
+</div>
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/jbj616/" title="Home" title="병구's Blog">
+              <img class="masthead-logo" src="/jbj616/public/logo.png"/>
+            </a>
+            <small>Develope Story</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">2019-06-01 [java-study] 로또2단계 스터디</h1>
+  <span class="post-date">01 Jun 2019</span>
+   | 
+  
+    <a href="/jbj616/tags/#java" class="post-tag">java</a>
+  
+    <a href="/jbj616/tags/#tdd" class="post-tag">TDD</a>
+  
+  
+  <article>
+    <h2 id="로또-2단계">로또 2단계</h2>
+
+<h4 id="기능-요구사항">기능 요구사항</h4>
+
+<ul>
+  <li>2등을 위해 추가 번호를 하나 더 추첨한다.</li>
+  <li>당첨 통계에 2등도 추가해야 한다.</li>
+  <li>사용자가 수동으로 추첨 번호를 입력할 수 있도록 해야 한다.</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>구입금액을 입력해 주세요.
+14000
+
+수동으로 구매할 로또 수를 입력해 주세요.
+3
+
+수동으로 구매할 번호를 입력해 주세요.
+8, 21, 23, 41, 42, 43
+3, 5, 11, 16, 32, 38
+7, 11, 16, 35, 36, 44
+
+수동으로 3장, 자동으로 11개를 구매했습니다.
+[8, 21, 23, 41, 42, 43]
+[3, 5, 11, 16, 32, 38]
+[7, 11, 16, 35, 36, 44]
+[1, 8, 11, 31, 41, 42]
+[13, 14, 16, 38, 42, 45]
+[7, 11, 30, 40, 42, 43]
+[2, 13, 22, 32, 38, 45]
+[23, 25, 33, 36, 39, 41]
+[1, 3, 5, 14, 22, 45]
+[5, 9, 38, 41, 43, 44]
+[2, 8, 9, 18, 19, 21]
+[13, 14, 18, 21, 23, 35]
+[17, 21, 29, 37, 42, 45]
+[3, 8, 27, 30, 35, 44]
+
+지난 주 당첨 번호를 입력해 주세요.
+1, 2, 3, 4, 5, 6
+보너스 볼을 입력해 주세요.
+7
+
+당첨 통계
+---------
+3개 일치 (5000원)- 1개
+4개 일치 (50000원)- 0개
+5개 일치 (1500000원)- 0개
+5개 일치, 보너스 볼 일치(30000000원) - 0개
+6개 일치 (2000000000원)- 0개
+총 수익률은 35.7%입니다.
+</code></pre></div></div>
+
+<h4 id="프로그래밍-요구사항">프로그래밍 요구사항</h4>
+
+<ul>
+  <li>모든 기능을 TDD로 구현해 단위 테스트가 존재해야 한다. 단, UI(System.out, System.in) 로직은 제외</li>
+  <li><strong>예외 처리를 통해 에러가 발생하지 않도록 한다.</strong></li>
+  <li><strong>규칙 3: 모든 원시값과 문자열을 포장한다.</strong></li>
+  <li><strong>규칙 5: 줄여쓰지 않는다(축약 금지).</strong></li>
+  <li><strong>규칙 8: 일급 콜렉션을 쓴다.</strong></li>
+</ul>
+
+<h2 id="힌트">힌트</h2>
+
+<ul>
+  <li>
+    <p>규칙 3: 모든 원시값과 문자열을 포장한다.</p>
+
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />로또 숫자 하나는 int 타입이다. 이 숫자 하나를 추상화한 LottoNo 객체를 추가해 구현한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>규칙 8: 일급 콜렉션을 쓴다.</p>
+
+    <ul class="task-list">
+      <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />사용자가 구매한 로또 한장을 Lotto 객체, 당첨 번호에 해당하는 로또를 WinningLotto 객체로 추상화한다.</li>
+    </ul>
+  </li>
+  <li>
+    <p>하드 코딩을 하지 않기 위해 상수 값을 사용하면 많은 상수 값이 발생한다. 자바의 enum을 활용해 상수 값을 제거한다. 즉, enum을 활용해 일치하는 수를 로또 등수로 변경해 본다.</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="nc">Rank</span> <span class="o">{</span>
+  <span class="no">FIRST</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="mi">2000000000</span><span class="o">),</span>
+  <span class="no">SECOND</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">30000000</span><span class="o">),</span>
+  <span class="no">THIRD</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">1500000</span><span class="o">),</span>
+  <span class="no">FOURTH</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">50000</span><span class="o">),</span>
+  <span class="no">FIFTH</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">5000</span><span class="o">),</span>
+  <span class="no">MISS</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+  
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">countOfMatch</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">winningMoney</span><span class="o">;</span>
+  
+  <span class="kd">private</span> <span class="nf">Rank</span><span class="o">(</span><span class="kt">int</span> <span class="n">countOfMatch</span><span class="o">,</span> <span class="kt">int</span> <span class="n">winningMoney</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">countOfMatch</span> <span class="o">=</span> <span class="n">countOfMatch</span><span class="o">;</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">winningMoney</span> <span class="o">=</span> <span class="n">winningMoney</span><span class="o">;</span>
+  <span class="o">}</span>
+  
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCountOfMatch</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">countOfMatch</span><span class="o">;</span>
+  <span class="o">}</span>
+  
+  <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getWinningMoney</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="n">winningMoney</span><span class="o">;</span>
+  <span class="o">}</span>
+  
+  <span class="kd">public</span> <span class="kd">static</span> <span class="nc">Rank</span> <span class="nf">valueOf</span><span class="o">(</span><span class="kt">int</span> <span class="n">countOfMatch</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">matchBonus</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// TODO 일치하는 수를 로또 등수로 변경한다. enum 값 목록은 "Rank[] ranks = values();"와 같이 가져올 수 있다.</span>
+      <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<blockquote>
+  <p>할일</p>
+</blockquote>
+
+<ul class="task-list">
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />test코드를 먼저짠다</p>
+
+    <p>=&gt; test코드를 먼저짜는 이유 <a href="https://www.youtube.com/watch?v=cVxqrGHxutU&amp;t=2111s">https://www.youtube.com/watch?v=cVxqrGHxutU&amp;t=2111s</a></p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />enum 공부하고 적용하자</p>
+  </li>
+  <li class="task-list-item">
+    <p><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />로또 숫자 하나는 int 타입이다. 이 숫자 하나를 추상화한 LottoNo 객체를 추가해 구현한다.</p>
+
+    <p>=&gt; 숫자 범위 밖 에러 발생</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p>공부한 내용</p>
+</blockquote>
+
+<ul>
+  <li>Enum</li>
+</ul>
+
+<p><a href="http://woowabros.github.io/tools/2017/07/10/java-enum-uses.html">http://woowabros.github.io/tools/2017/07/10/java-enum-uses.html</a>참고</p>
+
+<ul>
+  <li>
+    <p>comparable 과 comparator 차이</p>
+
+    <ul>
+      <li>
+        <p>comparable : 객체 간의 <strong>일반적인 정렬</strong>이 필요할 때, Comparable 인터페이스를 확장해서 정렬의 기준을 정의</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">compareTo</span><span class="o">(</span><span class="no">T</span> <span class="n">o</span><span class="o">)</span>
+</code></pre></div>        </div>
+      </li>
+      <li>
+        <p>comparator : 객체 간의 <strong>특정한 정렬</strong>이 필요할 때, Comparator 인터페이스를 확장해서 특정 기준을 정의</p>
+
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">compare</span><span class="o">(</span><span class="no">T</span> <span class="n">o1</span><span class="o">,</span> <span class="no">T</span> <span class="n">o2</span><span class="o">)</span>
+</code></pre></div>        </div>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<blockquote>
+  <p>리뷰 받은 내용</p>
+</blockquote>
+
+<ul>
+  <li>
+    <p>Set 과 List 의 차이</p>
+
+    <ul>
+      <li>가장 큰 차이는 set은 중복된 수를 허용하지 않는다는 점</li>
+    </ul>
+  </li>
+  <li>
+    <p>한줄이더라도 괄호를 붙여주자!</p>
+  </li>
+  <li>
+    <p>생성자에서 일을 많이함</p>
+  </li>
+  <li>
+    <p>상속 사용</p>
+
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Lottos</span> <span class="kd">extends</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">Lotto</span><span class="o">&gt;</span> <span class="o">{</span>
+  
+    <span class="kd">public</span> <span class="nc">LottoResults</span> <span class="nf">match</span><span class="o">(</span><span class="nc">Lotto</span> <span class="n">winningLotto</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">LottoResults</span> <span class="n">lottoResults</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LottoResults</span><span class="o">();</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">stream</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">lotto</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="nc">LottoResult</span><span class="o">(</span><span class="n">lotto</span><span class="o">.</span><span class="na">getCorrectCount</span><span class="o">(</span><span class="n">winningLotto</span><span class="o">.</span><span class="na">getNumbers</span><span class="o">())))</span>
+                <span class="o">.</span><span class="na">forEach</span><span class="o">(</span><span class="nl">lottoResults:</span><span class="o">:</span><span class="n">add</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">lottoResults</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<blockquote>
+  <p>후기</p>
+</blockquote>
+
+<p>로또를 구현하면서 최대한 객체가 무슨일을 하는지 이해하려고 노력했다. test를 먼저 작성하려다보니 어려워 객체를 먼저 그림을 그려보고 무슨일을 하는지 정의해보았다. 마침 구현해보고 수업시간에 디자인패턴에 대해 언급을 해주었다. 자세히 배우지는 못하였지만 디자인 패턴에 대하여 호기심이 생겼다. 처음 부터 디자인 패턴을 알고 접근 하였으면 좀 더 체계적으로 구현을 할 수 있었을 거라 생각했다.</p>
+
+<p>무엇보다 학교과제 프로젝트가 복합적으로 겹쳐서 힘들었고 집중하지 못한 점이 아쉽다.</p>
+
+<blockquote>
+  <p>소스 코드</p>
+</blockquote>
+
+<p><a href="https://github.com/jbj616/spring-study-lotto/tree/step2/src/main/java">https://github.com/jbj616/spring-study-lotto/tree/step2/src/main/java</a></p>
+
+  </article>
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/05/09/%EB%AC%B8%EC%9E%90%EC%97%B4-%EB%8D%A7%EC%85%88-%EA%B3%84%EC%82%B0%EA%B8%B0/">
+            2019-05-09 [java-study] 문자열 덧셈 계산기 스터디
+            <small>09 May 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/04/30/%EC%9E%90%EB%B0%94-%EB%9E%8C%EB%8B%A4%EC%8B%9D/">
+            2019-04-04 [java-study] java8 람다식
+            <small>30 Apr 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+      <li>
+        <h3>
+          <a href="/jbj616/java_study/2019/04/30/Stream-api/">
+            2019-04-30 [java-study] java8 스트림
+            <small>30 Apr 2019</small>
+          </a>
+        </h3>
+      </li>
+    
+  </ul>
+</div>
+
+
+<div class="comments">
+  <h2>Comments</h2>
+  <div id="disqus_thread"></div>
+  <script>
+var disqus_config = function () {
+  this.page.url = 'http://localhost:4000/java_study/2019/06/01/%E1%84%85%E1%85%A9%E1%84%84%E1%85%A9-2%E1%84%83%E1%85%A1%E1%86%AB%E1%84%80%E1%85%A8/'; // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = '/java_study/2019/06/01/로또 2단계'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = '//your_short_name.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+</div>
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if (target === toggle) {
+            checkbox.checked = !checkbox.checked;
+            e.preventDefault();
+          } else if (checkbox.checked && !sidebar.contains(target)) {
+            /* click outside the sidebar when sidebar is open */
+            checkbox.checked = false;
+          }
+        }, false);
+      })(document);
+    </script>
+    
+    <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-00000000-1', 'auto');
+ga('send', 'pageview');
+    </script>
+    
+  </body>
+  
+  <script id="dsq-count-scr" src="//your_short_name.disqus.com/count.js" async></script>
+  
+</html>
